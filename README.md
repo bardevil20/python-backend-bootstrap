@@ -3,6 +3,7 @@
 ## What this repo for?
 
 A step-by-step Python backend bootstrap repository.
+This repo is is a hands-on step-by-step Python adaptation, inspired by the “Modern Backend Meetup” repo https://github.com/nivitzhaky/modern-backend-meetup by @nivitzhaky.
 
 The goal of this repository is to guide you from **an empty repo** to a **working, production-style backend** by building everything incrementally:
 - FastAPI service that answers APIs
@@ -1048,14 +1049,15 @@ git commit --allow-empty -m "initial commit"
 
 ---
 
-## Final Notes
+### License
 
-* Explicit over magic
-* Easy to understand and extend
-* Suitable for learning, workshops, and real projects
+MIT
+
+### Credits
+
+Inspired by the “modern-backend-meetup” repo & meetup recording. 
+GitHub @nivitzhaky
+
+---
 
 Happy hacking 🚀
-
-::contentReference[oaicite:0]{index=0}
-```
-
