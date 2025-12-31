@@ -941,7 +941,7 @@ Key points:
 * In DATABASE_URL, the host is db (the service name), not localhost.
 * depends_on ensures db starts before api (it does not guarantee DB is “ready”, only started).
 
-### ### Run API + PostgreSQL together via docker
+### Run API + PostgreSQL together via docker
 
 first make sure db is not running over docker from previous steps,
 use command `docker compose down -v` to shut all docker containers.
@@ -955,9 +955,9 @@ docker compose up -d --build
 
 ---
 
-## STEP 8 — Deploy to EC2
+## STEP 7 — Deploy to EC2
 
-### 8.1 Create EC2 instance
+### 7.1 Create EC2 instance
 
 * Ubuntu Server 22.04
 * Instance type: `t3.micro`
@@ -966,7 +966,7 @@ docker compose up -d --build
 
 ---
 
-### 8.2 Connect via SSH
+### 7.2 Connect via SSH
 
 **macOS / Linux**
 
@@ -983,7 +983,7 @@ ssh -i my-key.pem ubuntu@X.X.X.X
 
 ---
 
-### 8.3 Install Docker on EC2
+### 7.3 Install Docker on EC2
 
 ```bash
 sudo apt update
@@ -1001,7 +1001,7 @@ docker compose version
 
 ---
 
-### 8.4 Run the project on EC2
+### 7.4 Run the project on EC2
 
 ```bash
 git clone https://github.com/<YOUR_USER>/python-backend-bootstrap.git
@@ -1012,42 +1012,10 @@ docker compose up -d --build
 
 ---
 
-### 8.5 Verify deployment
+### 7.5 Verify deployment
 
 * [http://X.X.X.X:8000/health](http://X.X.X.X:8000/health)
 * [http://X.X.X.X:8000/docs](http://X.X.X.X:8000/docs)
-
----
-
-## How to use this repository as a template
-
-### Option 1 — GitHub template
-
-1. Click **Use this template**
-2. Create new repository
-3. Clone and start coding
-
-### Option 2 — Manual bootstrap
-
-**macOS / Linux**
-
-```bash
-git clone https://github.com/<YOUR_USER>/python-backend-bootstrap.git my-project
-cd my-project
-rm -rf .git
-git init
-git commit --allow-empty -m "initial commit"
-```
-
-**Windows (PowerShell)**
-
-```powershell
-git clone https://github.com/<YOUR_USER>/python-backend-bootstrap.git my-project
-cd my-project
-Remove-Item -Recurse -Force .git
-git init
-git commit --allow-empty -m "initial commit"
-```
 
 ---
 
