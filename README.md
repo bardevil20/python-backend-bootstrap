@@ -1051,7 +1051,9 @@ git commit --allow-empty -m "initial commit"
 
 ### License
 
-MIT
+MIT License
+
+Copyright (c) 2025 Bar Janah
 
 ### Credits
 
