@@ -219,7 +219,28 @@ Check health:
 
 ---
 
-### 1.9 Initial commit
+### edit .gitignore (add python / env ignores)
+
+`.gitignore`
+```gitignore
+```
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+.venv/
+venv/
+
+# Environment variables
+.env
+
+```
+
+---
+
+### 1.10 Initial commit
 
 ```bash
 git add .
