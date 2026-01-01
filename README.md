@@ -223,7 +223,6 @@ Check health:
 
 `.gitignore`
 ```gitignore
-```
 # Python
 __pycache__/
 *.py[cod]
