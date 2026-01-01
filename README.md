@@ -405,6 +405,40 @@ New-Item app\models\__init__.py -ItemType File
 
 You will populate it in STEP 5.
 
+---
+
+### 4.3 edit .gitignore (add alembic ignores)
+
+`.gitignore`
+```gitignore
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+.venv/
+venv/
+
+# Environment variables
+.env# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+.venv/
+venv/
+
+# Environment variables
+.env
+
+# Alembic
+alembic/__pycache__/
+
+```
+---
+
 Commit:
 
 ```bash
