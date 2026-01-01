@@ -36,7 +36,7 @@ The goal of this repository is to guide you from **an empty repo** to a **workin
 **macOS / Linux** OR **Windows (PowerShell)**
 
 ```
-git clone [https://github.com/bardevil20/python-backend-bootstrap.git](https://github.com/bardevil20/python-backend-bootstrap.git)
+git clone https://github.com/bardevil20/python-backend-bootstrap.git
 cd python-backend-bootstrap
 ```
 
