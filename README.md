@@ -869,13 +869,13 @@ Invoke-RestMethod -Method Post -Uri "http://localhost:8000/api/cars" -ContentTyp
 ```bash
 curl -s -X POST http://localhost:8000/api/cars/1/rentals \
   -H "Content-Type: application/json" \
-  -d '{"customer_name":"Niv","start_date":"2025-01-01","end_date":"2025-01-05"}'
+  -d '{"customer_name":"Joe","start_date":"2025-01-01","end_date":"2025-01-05"}'
 ```
 
 **Windows (PowerShell)**
 
 ```powershell
-$body = @{ customer_name="Niv"; start_date="2025-01-01"; end_date="2025-01-05" } | ConvertTo-Json
+$body = @{ customer_name="Joe"; start_date="2025-01-01"; end_date="2025-01-05" } | ConvertTo-Json
 Invoke-RestMethod -Method Post -Uri "http://localhost:8000/api/cars/1/rentals" -ContentType "application/json" -Body $body
 ```
 
