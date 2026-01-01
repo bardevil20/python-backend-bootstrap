@@ -765,9 +765,9 @@ Update file content with tables creation migrations:
 ```python
 """create cars and rentals
 
-Revision ID: 5b9e02912791
+Revision ID: <YOUR_REVISION_ID>
 Revises: 
-Create Date: 2025-12-29 15:55:24.192742
+Create Date: <REVISION_DATE>
 
 """
 from typing import Sequence, Union
@@ -777,7 +777,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '5b9e02912791'
+revision: str = '<YOUR_REVISION_ID>'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
