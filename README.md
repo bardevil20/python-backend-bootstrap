@@ -421,16 +421,6 @@ __pycache__/
 venv/
 
 # Environment variables
-.env# Python
-__pycache__/
-*.py[cod]
-*.pyo
-
-# Virtual environment
-.venv/
-venv/
-
-# Environment variables
 .env
 
 # Alembic
