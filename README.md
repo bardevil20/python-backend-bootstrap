@@ -4,7 +4,8 @@
 
 A step-by-step Python backend bootstrap repository.
 
-This repo is is a hands-on step-by-step Python adaptation, inspired by the “Modern Backend Meetup” repo https://github.com/nivitzhaky/modern-backend-meetup by @nivitzhaky
+This repo is is a hands-on step-by-step Python adaptation, inspired by the “Modern Backend Meetup” repo https://github.com/nivitzhaky/modern-backend-meetup by [@nivitzhaky](https://www.github.com/nivitzhaky)
+
 
 
 The goal of this repository is to guide you from **an empty repo** to a **working, production-style backend** by building everything incrementally:
@@ -1160,11 +1161,133 @@ git clone https://github.com/<YOUR_USER>/python-backend-bootstrap.git
 cd python-backend-bootstrap
 cp .env.example .env
 docker compose up -d --build
+docker compose exec app alembic upgrade head
+docker compose exec db psql -U postgres -d postgres -c "\dt"
 ```
 
 ---
 
 ### 7.5 Verify deployment
+
+* [http://X.X.X.X:8000/health](http://X.X.X.X:8000/health)
+* [http://X.X.X.X:8000/docs](http://X.X.X.X:8000/docs)
+
+
+#### Check car creation post request via the docs url
+
+---
+
+## Step 8 - for advancers
+
+### 8.1 One-command startup (API + DB + migrations)
+
+When you run `docker compose up`, Docker will start containers, but it will **not** automatically create tables.
+Tables are created by Alembic migrations (`alembic upgrade head`).
+
+To make the project start in **one command**, we run migrations automatically when the API container starts.
+
+---
+
+### 8.2 How it works
+
+- **Dockerfile** builds the API image (Python + deps + code).
+- **docker-compose.yml** runs the full stack (DB + API) and wires networking between them.
+- The API container runs an entrypoint script that:
+  1. waits until the DB is ready (via compose healthcheck)
+  2. runs `alembic upgrade head`
+  3. starts the FastAPI server
+
+Because `alembic upgrade head` is idempotent, it is safe to run on every startup:
+- If migrations already ran → it does nothing.
+- If there are new migrations → it applies them.
+
+---
+
+### 8.3 Files to add / update
+
+#### 8.3.1 `docker/entrypoint.sh`
+
+```bash
+#!/usr/bin/env sh
+set -e
+
+echo "Running migrations..."
+alembic upgrade head
+
+echo "Starting API..."
+exec uvicorn app.main:app --host 0.0.0.0 --port 8000
+```
+
+Make it executable (recommended on Linux/macOS before pushing to git):
+
+```bash
+chmod +x docker/entrypoint.sh
+```
+
+#### 8.3.2 Update Dockerfile
+
+```Dockerfile
+FROM python:3.14-slim
+
+WORKDIR /app
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+RUN chmod +x docker/entrypoint.sh
+CMD ["sh", "docker/entrypoint.sh"]
+```
+
+#### 8.3.3 Update docker-compose.yml (DB healthcheck + API depends_on)
+
+```yaml
+version: "3.9"
+services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgresdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  app:
+    build: .
+    environment:
+      - DATABASE_URL=postgresql+psycopg://postgres:postgres@db:5432/postgres
+    ports:
+      - "8000:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgresdata:
+```
+
+---
+
+### 8.4 Run everything (one command)
+
+#### macOS / Linux / Windows (PowerShell)
+
+```bash
+docker compose up -d --build
+```
+
+#### Verify deployment
 
 * [http://X.X.X.X:8000/health](http://X.X.X.X:8000/health)
 * [http://X.X.X.X:8000/docs](http://X.X.X.X:8000/docs)
