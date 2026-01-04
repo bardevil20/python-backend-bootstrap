@@ -4,7 +4,8 @@
 
 A step-by-step Python backend bootstrap repository.
 
-This repo is is a hands-on step-by-step Python adaptation, inspired by the “Modern Backend Meetup” repo https://github.com/nivitzhaky/modern-backend-meetup by @nivitzhaky
+This repo is is a hands-on step-by-step Python adaptation, inspired by the “Modern Backend Meetup” repo https://github.com/nivitzhaky/modern-backend-meetup by [@nivitzhaky](https://www.github.com/nivitzhaky)
+
 
 
 The goal of this repository is to guide you from **an empty repo** to a **working, production-style backend** by building everything incrementally:
