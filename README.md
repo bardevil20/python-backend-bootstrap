@@ -3,9 +3,9 @@
 ## What this repo for?
 
 A step-by-step Python backend bootstrap repository.
-```md
+
 This repo is is a hands-on step-by-step Python adaptation, inspired by the “Modern Backend Meetup” repo https://github.com/nivitzhaky/modern-backend-meetup by @nivitzhaky
-```
+
 
 The goal of this repository is to guide you from **an empty repo** to a **working, production-style backend** by building everything incrementally:
 - FastAPI service that answers APIs
@@ -150,7 +150,7 @@ APP_ENV=local
 DATABASE_URL=postgresql+psycopg://postgres:postgres@localhost:5432/postgres
 ```
 
-Create `.env`
+#### Create `.env`
 
 **macOS / Linux**
 
@@ -219,7 +219,27 @@ Check health:
 
 ---
 
-### 1.9 Initial commit
+### edit .gitignore (add python / env ignores)
+
+`.gitignore`
+```gitignore
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+.venv/
+venv/
+
+# Environment variables
+.env
+
+```
+
+---
+
+### 1.10 Initial commit
 
 ```bash
 git add .
@@ -285,7 +305,7 @@ git commit -m "step 2 - postgres with docker"
 
 ## STEP 3 — Database session (SQLAlchemy)
 
-Create files:
+#### Create files:
 
 **macOS / Linux**
 
@@ -369,7 +389,7 @@ config.set_main_option("sqlalchemy.url", settings.database_url or "")
 target_metadata = Base.metadata
 ```
 
-Create `app/models/__init__.py` if missing:
+#### Create `app/models/__init__.py` if missing:
 
 **macOS / Linux**
 
@@ -384,6 +404,30 @@ New-Item app\models\__init__.py -ItemType File
 ```
 
 You will populate it in STEP 5.
+
+---
+
+### 4.3 edit .gitignore (add alembic ignores)
+
+`.gitignore`
+```gitignore
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environment
+.venv/
+venv/
+
+# Environment variables
+.env
+
+# Alembic
+alembic/__pycache__/
+
+```
+---
 
 Commit:
 
@@ -412,7 +456,26 @@ Endpoints included:
 
 ### 5.1 Models (SQLAlchemy)
 
-Create: `app/models/car.py`
+#### Create: `app/models` files
+
+**macOS / Linux**
+
+```bash
+touch app/models/car.py
+touch app/models/rental.py
+```
+
+**Windows (PowerShell)**
+
+```powershell
+New-Item app\models\car.py -ItemType File
+New-Item app\models\rental.py -ItemType File
+
+```
+
+Edit files:
+
+`app/model/car.py`
 
 ```python
 import enum
@@ -443,7 +506,7 @@ class Car(Base):
 
 ```
 
-Create: `app/models/rental.py`
+`app/model/rental.py`
 
 ```python
 from sqlalchemy import String, Integer, Date, Boolean, ForeignKey
@@ -477,7 +540,27 @@ from .rental import Rental
 
 ### 5.2 Schemas (Pydantic)
 
-Create: `app/schemas/car.py`
+#### Create Schemas files
+
+**macOS / Linux**
+
+```bash
+touch app/schemas/car.py
+touch app/schemas/rental.py
+
+```
+
+**Windows (PowerShell)**
+
+```powershell
+New-Item app\schemas\car.py -ItemType File
+New-Item app\schemas\rental.py -ItemType File
+```
+
+Edit files:
+
+
+Update: `app/schemas/car.py`
 
 ```python
 from pydantic import BaseModel, Field
@@ -496,7 +579,7 @@ class CarOut(CarCreate):
     model_config = {"from_attributes": True}
 ```
 
-Create: `app/schemas/rental.py`
+Update: `app/schemas/rental.py`
 
 ```python
 from datetime import date
@@ -528,6 +611,22 @@ class RentalOut(BaseModel):
 Create shared exceptions for the service layer.  
 The API layer will translate them to HTTP responses.
 
+#### Create Services errors
+
+**macOS / Linux**
+
+```bash
+touch app/services/errors.py
+```
+
+**Windows (PowerShell)**
+
+```powershell
+New-Item app\services\errors.py -ItemType File
+```
+
+Edit file:
+
 Create: `app/services/errors.py`
 
 ```python
@@ -542,7 +641,26 @@ class BadRequestError(Exception):
 ---
 
 ### 5.4 Services (DB operations)
-`app/services/car_service.py`
+
+#### Create Services errors
+
+**macOS / Linux**
+
+```bash
+touch app/services/car_service.py
+touch app/services/rental_service.py
+```
+
+**Windows (PowerShell)**
+
+```powershell
+New-Item app\services\car_service.py -ItemType File
+New-Item app\services\rental_service.py -ItemType File
+```
+
+Edit file:
+
+Update: `app/services/car_service.py`
 
 ```python
 from sqlalchemy import select
@@ -572,7 +690,7 @@ def get_car(db: Session, car_id: int) -> Car:
 
 ```
 
-`app/services/rental_service.py`
+Update: `app/services/rental_service.py`
 
 ```python
 from sqlalchemy.orm import Session
@@ -634,7 +752,26 @@ def complete_rental(db: Session, rental_id: int) -> Rental:
 ---
 
 ### 5.5 Routes (FastAPI) — thin controllers
-`app/api/cars.py`
+
+#### Create API files
+
+**macOS / Linux**
+
+```bash
+touch app/api/cars.py
+touch app/api/rentals.py
+```
+
+**Windows (PowerShell)**
+
+```powershell
+New-Item app\api\cars.py -ItemType File
+New-Item app\api\rentals.py -ItemType File
+```
+
+Edit file:
+
+Update: `app/api/cars.py`
 
 ```python
 from fastapi import APIRouter, Depends, HTTPException, status
@@ -678,7 +815,7 @@ def create_rental_for_car_route(car_id: int, payload: RentalCreate, db: Session 
 
 ```
 
-`app/api/rentals.py`
+Update: `app/api/rentals.py`
 
 ```python
 from fastapi import APIRouter, Depends, HTTPException
@@ -721,9 +858,9 @@ Update file content with tables creation migrations:
 ```python
 """create cars and rentals
 
-Revision ID: 5b9e02912791
+Revision ID: <YOUR_REVISION_ID>
 Revises: 
-Create Date: 2025-12-29 15:55:24.192742
+Create Date: <REVISION_DATE>
 
 """
 from typing import Sequence, Union
@@ -733,7 +870,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision: str = '5b9e02912791'
+revision: str = '<YOUR_REVISION_ID>'
 down_revision: Union[str, Sequence[str], None] = None
 branch_labels: Union[str, Sequence[str], None] = None
 depends_on: Union[str, Sequence[str], None] = None
@@ -801,6 +938,9 @@ app.include_router(rentals_router)
 
 Assuming the server is running on `http://localhost:8000`
 
+#### Swagger
+http://localhost:8000/docs#/
+
 #### Create a car
 
 **macOS / Linux**
@@ -825,13 +965,13 @@ Invoke-RestMethod -Method Post -Uri "http://localhost:8000/api/cars" -ContentTyp
 ```bash
 curl -s -X POST http://localhost:8000/api/cars/1/rentals \
   -H "Content-Type: application/json" \
-  -d '{"customer_name":"Niv","start_date":"2025-01-01","end_date":"2025-01-05"}'
+  -d '{"customer_name":"Joe","start_date":"2025-01-01","end_date":"2025-01-05"}'
 ```
 
 **Windows (PowerShell)**
 
 ```powershell
-$body = @{ customer_name="Niv"; start_date="2025-01-01"; end_date="2025-01-05" } | ConvertTo-Json
+$body = @{ customer_name="Joe"; start_date="2025-01-01"; end_date="2025-01-05" } | ConvertTo-Json
 Invoke-RestMethod -Method Post -Uri "http://localhost:8000/api/cars/1/rentals" -ContentType "application/json" -Body $body
 ```
 
@@ -871,7 +1011,19 @@ git commit -m "step 5 - cars and rentals minimal crud with service layer"
   You use it when you want: `docker build ...` (or when docker-compose builds for you).
 ---
 
-`Dockerfile`
+**macOS / Linux**
+
+```bash
+touch ./Dockerfile
+```
+
+**Windows (PowerShell)**
+
+```powershell
+New-Item ./Dockerfile -ItemType File
+```
+
+Update: `Dockerfile`
 
 ```dockerfile
 FROM python:3.14-slim
@@ -900,7 +1052,7 @@ CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "8000"]
 
 ---
 
-`docker-compose.yml`
+Update: `docker-compose.yml`
 
 ```yml
 services:
