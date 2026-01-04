@@ -1178,7 +1178,7 @@ docker compose exec db psql -U postgres -d postgres -c "\dt"
 
 ---
 
-## Step 8 - for advancers
+## Step 8 - Advanced (optional): Automatic migrations on startup
 
 ### 8.1 One-command startup (API + DB + migrations)
 
