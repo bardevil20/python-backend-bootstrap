@@ -33,13 +33,15 @@ The goal of this repository is to guide you from **an empty repo** to a **workin
 
 ## Follow the steps below to run the project
 
-## GIT — fork & clone
+## A. OPEN a brand new repository in your github
+
+## B. GIT — fork & clone
 
 **macOS / Linux** OR **Windows (PowerShell)**
 
 ```
-git clone https://github.com/bardevil20/python-backend-bootstrap.git
-cd python-backend-bootstrap
+git clone https://github.com/<YOUR_USERNAME/<YOUR_REPO>.git
+cd <REPO_NAME>
 ```
 
 ---
