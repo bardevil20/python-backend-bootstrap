@@ -22,11 +22,12 @@ The goal of this repository is to guide you from **an empty repo** to a **workin
 
 - **Python 3.14.1**
 - **FastAPI**
+- **Dependency management** (via requirements.txt)
 - **PostgreSQL**
 - **SQLAlchemy 2**
 - **Alembic**
 - **Docker / docker-compose**
-- Dependency management via **requirements.txt**
+- **EC2 deployment**
 
 ---
 
