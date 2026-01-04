@@ -1,4 +1,3 @@
-version: "3.9"
 services:
   db:
     image: postgres:16
@@ -9,7 +8,24 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - postgresdata:/var/lib/postgresql/data
-
+      - ./postgresdata:/var/lib/postgresql/data
+  app:
+      build: .
+      environment:
+        - APP_ENV=local
+        - DATABASE_URL=postgresql+psycopg://postgres:postgres@db:5432/postgres
+      ports:
+        - "8000:8000"
+      depends_on:
+        - db
+  alembic:
+    build: .
+    environment:
+      - APP_ENV=local
+      - DATABASE_URL=postgresql+psycopg://postgres:postgres@db:5432/postgres
+    depends_on:
+      - db
+    command: ["alembic", "upgrade", "head"]
+    
 volumes:
   postgresdata:
