@@ -1069,25 +1069,43 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./postgresdata:/var/lib/postgresql/data
-  app:
-      build: .
-      environment:
-        - APP_ENV=local
-        - DATABASE_URL=postgresql+psycopg://postgres:postgres@db:5432/postgres
-      ports:
-        - "8000:8000"
-      depends_on:
-        - db
+      - postgresdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+app:
+  build: .
+  environment:
+    - APP_ENV=local
+    - DATABASE_URL=postgresql+psycopg://postgres:postgres@db:5432/postgres
+  ports:
+    - "8000:8000"
+  depends_on:
+    db:
+      condition: service_healthy
+  healthcheck:
+    test: ["CMD-SHELL", "wget -qO- http://localhost:8000/health || exit 1"]
+    interval: 10s
+    timeout: 3s
+    retries: 5
+    start_period: 10s
+  restart: unless-stopped
+
   alembic:
     build: .
     environment:
       - APP_ENV=local
       - DATABASE_URL=postgresql+psycopg://postgres:postgres@db:5432/postgres
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     command: ["alembic", "upgrade", "head"]
-    
+    restart: "no"
+
 volumes:
   postgresdata:
 ```
